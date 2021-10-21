@@ -1,4 +1,4 @@
-module github.com/gonutz/cc
+module github.com/gonutz/ccc
 
 go 1.16
 

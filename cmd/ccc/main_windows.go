@@ -9,7 +9,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/gonutz/cc"
+	"github.com/gonutz/ccc"
 	"github.com/gonutz/wui/v2"
 )
 
@@ -80,7 +80,7 @@ func runGui(inputFilePath string) {
 			defer out.Close()
 
 			random := rand.New(rand.NewSource(int64(seed.Value())))
-			xor := cc.NewXORReader(in, cc.NewFuncReader(func() byte {
+			xor := ccc.NewXORReader(in, ccc.NewFuncReader(func() byte {
 				return byte(random.Intn(256))
 			}))
 			_, err = io.Copy(out, xor)

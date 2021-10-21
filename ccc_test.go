@@ -1,4 +1,4 @@
-package cc_test
+package ccc_test
 
 import (
 	"bytes"
@@ -6,7 +6,7 @@ import (
 	"io"
 	"testing"
 
-	"github.com/gonutz/cc"
+	"github.com/gonutz/ccc"
 	"github.com/gonutz/check"
 )
 
@@ -14,7 +14,7 @@ func TestXORReader(t *testing.T) {
 	a := bytes.NewReader([]byte{12, 34, 56})
 	b := bytes.NewReader([]byte{65, 43, 21})
 
-	r := cc.NewXORReader(a, b)
+	r := ccc.NewXORReader(a, b)
 
 	var xor [5]byte
 	n, err := r.Read(xor[:])
@@ -27,7 +27,7 @@ func TestFirstReaderStopsEarly(t *testing.T) {
 	a := bytes.NewReader([]byte{12})
 	b := bytes.NewReader([]byte{65, 43, 21})
 
-	r := cc.NewXORReader(a, b)
+	r := ccc.NewXORReader(a, b)
 
 	var xor [5]byte
 	n, err := r.Read(xor[:])
@@ -40,7 +40,7 @@ func TestSecondReaderStopsEarly(t *testing.T) {
 	a := bytes.NewReader([]byte{12, 34, 56})
 	b := bytes.NewReader([]byte{65})
 
-	r := cc.NewXORReader(a, b)
+	r := ccc.NewXORReader(a, b)
 
 	var xor [5]byte
 	n, err := r.Read(xor[:])
@@ -53,7 +53,7 @@ func TestErrorOnFirstReaderBubblesUp(t *testing.T) {
 	a := failAfterRead(bytes.NewReader([]byte{12, 34, 56}))
 	b := bytes.NewReader([]byte{65, 43, 21})
 
-	r := cc.NewXORReader(a, b)
+	r := ccc.NewXORReader(a, b)
 
 	_, err := r.Read(make([]byte, 5))
 	check.Eq(t, err.Error(), "fail")
@@ -63,7 +63,7 @@ func TestErrorOnSecondReaderBubblesUp(t *testing.T) {
 	a := bytes.NewReader([]byte{12, 34, 56})
 	b := failAfterRead(bytes.NewReader([]byte{65, 43, 21}))
 
-	r := cc.NewXORReader(a, b)
+	r := ccc.NewXORReader(a, b)
 
 	_, err := r.Read(make([]byte, 5))
 	check.Eq(t, err.Error(), "fail")
@@ -86,7 +86,7 @@ func (r *failer) Read(p []byte) (n int, err error) {
 func TestFuncReader(t *testing.T) {
 	f := func() byte { return 123 }
 	var buf [3]byte
-	n, err := cc.NewFuncReader(f).Read(buf[:])
+	n, err := ccc.NewFuncReader(f).Read(buf[:])
 	check.Eq(t, err, nil)
 	check.Eq(t, n, 3)
 	check.Eq(t, buf, [3]byte{123, 123, 123})

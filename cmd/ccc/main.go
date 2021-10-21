@@ -7,7 +7,7 @@ import (
 	"math/rand"
 	"os"
 
-	"github.com/gonutz/cc"
+	"github.com/gonutz/ccc"
 )
 
 func usage() {
@@ -27,7 +27,7 @@ func main() {
 
 	flag.Parse()
 	random := rand.New(rand.NewSource(int64(*seed)))
-	r := cc.NewXORReader(os.Stdin, cc.NewFuncReader(func() byte {
+	r := ccc.NewXORReader(os.Stdin, ccc.NewFuncReader(func() byte {
 		return byte(random.Intn(256))
 	}))
 	_, err := io.Copy(os.Stdout, r)
