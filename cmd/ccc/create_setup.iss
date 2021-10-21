@@ -1,5 +1,5 @@
 [Setup]
-AppId={{8EF8C262-5FAC-4868-BD09-015574A964A4}
+AppId={{FA5EB826-84C6-4F4E-ABF0-839F7B180F11}
 AppName=ccc
 AppVersion=1.0.0
 AppPublisher=gonutz
@@ -37,3 +37,4 @@ Root: HKCR; Subkey: ".ccc"; ValueType: string; ValueName: ""; ValueData: "cccFil
 Root: HKCR; Subkey: "cccFile"; ValueType: string; ValueName: ""; ValueData: "ccc file"; Flags: uninsdeletekey
 Root: HKCR; Subkey: "cccFile\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\ccc.exe,0"
 Root: HKCR; Subkey: "cccFile\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\ccc.exe"" ""%1"""
+Root: HKCR; Subkey: "*\shell\ccc this file\command"; ValueType: string; ValueName: ""; ValueData: """{app}\ccc.exe"" ""%1"""; Flags: uninsdeletekey
