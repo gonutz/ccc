@@ -22,7 +22,7 @@ func runGui(inputFilePath string) {
 	window := wui.NewWindow()
 	window.SetFont(windowFont)
 	window.SetInnerSize(402, 143)
-	window.SetTitle("cc - xor file with random numbers")
+	window.SetTitle("ccc - xor file with random numbers")
 	window.SetHasMinButton(false)
 	window.SetHasMaxButton(false)
 	window.SetResizable(false)
@@ -49,14 +49,14 @@ func runGui(inputFilePath string) {
 	okButton.SetOnClick(func() {
 		save := wui.NewFileSaveDialog()
 
-		if strings.HasSuffix(strings.ToLower(inputFilePath), ".cc") {
+		if strings.HasSuffix(strings.ToLower(inputFilePath), ".ccc") {
 			f := strings.TrimSuffix(inputFilePath, filepath.Ext(inputFilePath))
 			f, _ = filepath.Abs(f)
 			save.SetInitialPath(f)
 		} else {
-			save.AddFilter("cc file", ".cc")
+			save.AddFilter("ccc file", ".ccc")
 			f, _ := filepath.Abs(inputFilePath)
-			f += ".cc"
+			f += ".ccc"
 			save.SetInitialPath(f)
 		}
 
