@@ -20,6 +20,11 @@ func usage() {
 var seed = flag.Int("n", -1, "seed for the generated random number stream")
 
 func main() {
+	if len(os.Args) == 2 {
+		runGui(os.Args[1])
+		return
+	}
+
 	flag.Parse()
 	random := rand.New(rand.NewSource(int64(*seed)))
 	r := cc.NewXORReader(os.Stdin, cc.NewFuncReader(func() byte {
