@@ -37,16 +37,28 @@ func (r *XORReader) Read(p []byte) (n int, err error) {
 	return
 }
 
-func NewFuncReader(f func() byte) io.Reader {
-	return funcReader(f)
-}
+type FuncReader func() byte
 
-type funcReader func() byte
-
-func (f funcReader) Read(p []byte) (n int, err error) {
+func (f FuncReader) Read(p []byte) (n int, err error) {
 	n = len(p)
 	for i := range p {
 		p[i] = f()
+	}
+	return
+}
+
+func NewLoopReader(r io.ReadSeeker) *LoopReader {
+	return &LoopReader{r}
+}
+
+type LoopReader struct {
+	r io.ReadSeeker
+}
+
+func (r *LoopReader) Read(p []byte) (n int, err error) {
+	n, err = r.r.Read(p)
+	if err == io.EOF {
+		_, err = r.r.Seek(0, io.SeekStart)
 	}
 	return
 }

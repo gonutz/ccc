@@ -80,7 +80,7 @@ func runGui(inputFilePath string) {
 			defer out.Close()
 
 			random := rand.New(rand.NewSource(int64(seed.Value())))
-			xor := ccc.NewXORReader(in, ccc.NewFuncReader(func() byte {
+			xor := ccc.NewXORReader(in, ccc.FuncReader(func() byte {
 				return byte(random.Intn(256))
 			}))
 			_, err = io.Copy(out, xor)

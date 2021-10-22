@@ -69,25 +69,43 @@ func TestErrorOnSecondReaderBubblesUp(t *testing.T) {
 	check.Eq(t, err.Error(), "fail")
 }
 
-func failAfterRead(r io.Reader) io.Reader {
-	return &failer{r: r}
+func TestFuncReader(t *testing.T) {
+	f := func() byte { return 123 }
+	buf := make([]byte, 3)
+	n, err := ccc.FuncReader(f).Read(buf)
+	check.Eq(t, err, nil)
+	check.Eq(t, n, 3)
+	check.Eq(t, buf, []byte{123, 123, 123})
+}
+
+func TestLoopReader(t *testing.T) {
+	r := bytes.NewReader([]byte{1, 2, 3})
+	buf := make([]byte, 7)
+	n, err := io.ReadFull(ccc.NewLoopReader(r), buf)
+	check.Eq(t, err, nil)
+	check.Eq(t, n, 7)
+	check.Eq(t, buf, []byte{1, 2, 3, 1, 2, 3, 1})
+}
+
+func TestLoopReaderCanFail(t *testing.T) {
+	r := failAfterRead(bytes.NewReader([]byte{1, 2, 3}))
+	buf := make([]byte, 7)
+	n, err := io.ReadFull(ccc.NewLoopReader(r), buf)
+	check.Eq(t, err.Error(), "fail")
+	check.Eq(t, n, 3)
+	check.Eq(t, buf[:3], []byte{1, 2, 3})
+}
+
+func failAfterRead(r *bytes.Reader) io.ReadSeeker {
+	return &failer{r}
 }
 
 type failer struct {
-	r io.Reader
+	*bytes.Reader
 }
 
 func (r *failer) Read(p []byte) (n int, err error) {
-	n, _ = r.r.Read(p)
+	n, _ = r.Reader.Read(p)
 	err = errors.New("fail")
 	return
-}
-
-func TestFuncReader(t *testing.T) {
-	f := func() byte { return 123 }
-	var buf [3]byte
-	n, err := ccc.NewFuncReader(f).Read(buf[:])
-	check.Eq(t, err, nil)
-	check.Eq(t, n, 3)
-	check.Eq(t, buf, [3]byte{123, 123, 123})
 }
