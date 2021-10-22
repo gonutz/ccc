@@ -15,6 +15,7 @@ SetupIconFile=ccc.ico
 Compression=lzma
 SolidCompression=yes
 ChangesAssociations=yes
+ArchitecturesInstallIn64BitMode=x64
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -24,7 +25,8 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked; OnlyBelowVersion: 0,6.1
 
 [Files]
-Source: "ccc.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "ccc64.exe"; DestDir: "{app}"; DestName: "ccc.exe"; Check: Is64BitInstallMode; Flags: ignoreversion
+Source: "ccc32.exe"; DestDir: "{app}"; DestName: "ccc.exe"; Check: not Is64BitInstallMode; Flags: ignoreversion
 
 [Icons]
 Name: "{group}\ccc"; Filename: "{app}\ccc.exe"
